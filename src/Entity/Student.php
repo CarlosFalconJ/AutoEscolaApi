@@ -14,6 +14,10 @@ class Student
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\ManyToOne(targetEntity: DrivingSchool::class)]
+    #[ORM\JoinColumn(name: 'drivingSchool_id', referencedColumnName: 'id')]
+    private DrivingSchool|null $drivingSchool = null;
+
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
@@ -29,6 +33,18 @@ class Student
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getDrivingSchool(): ?DrivingSchool
+    {
+        return $this->drivingSchool;
+    }
+
+    public function setDrivingSchool(?DrivingSchool $drivingSchool): static
+    {
+        $this->drivingSchool = $drivingSchool;
+
+        return $this;
     }
 
     public function getName(): ?string
