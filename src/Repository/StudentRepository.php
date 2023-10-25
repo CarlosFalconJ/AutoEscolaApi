@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\Aluno;
+use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Aluno>
+ * @extends ServiceEntityRepository<Student>
  *
- * @method Aluno|null find($id, $lockMode = null, $lockVersion = null)
- * @method Aluno|null findOneBy(array $criteria, array $orderBy = null)
- * @method Aluno[]    findAll()
- * @method Aluno[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Student|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Student|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Student[]    findAll()
+ * @method Student[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AlunoRepository extends ServiceEntityRepository
+class StudentRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Aluno::class);
+        parent::__construct($registry, Student::class);
     }
 
 //    /**
-//     * @return Aluno[] Returns an array of Aluno objects
+//     * @return Student[] Returns an array of Student objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class AlunoRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Aluno
+//    public function findOneBySomeField($value): ?Student
 //    {
 //        return $this->createQueryBuilder('a')
 //            ->andWhere('a.exampleField = :val')

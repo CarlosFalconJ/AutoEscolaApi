@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\AlunoRepository;
+use App\Repository\StudentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: AlunoRepository::class)]
-class Aluno
+#[ORM\Entity(repositoryClass: StudentRepository::class)]
+class Student
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
