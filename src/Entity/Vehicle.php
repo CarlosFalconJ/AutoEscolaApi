@@ -14,7 +14,7 @@ class Vehicle
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: DrivingSchool::class)]
-    #[ORM\JoinColumn(name: 'drivingSchool_id', referencedColumnName: 'id')]
+    #[ORM\JoinColumn(name: 'driving_school_id', referencedColumnName: 'id')]
     private DrivingSchool|null $drivingSchool = null;
 
     #[ORM\Column(length: 255)]
