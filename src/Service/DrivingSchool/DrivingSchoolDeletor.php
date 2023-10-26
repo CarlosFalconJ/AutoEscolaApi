@@ -2,7 +2,7 @@
 
 namespace App\Service\DrivingSchool;
 
-use App\Dto\RequestDeleteDrivingSchool;
+use App\Dto\DrivingSchool\RequestDeleteDrivingSchool;
 use App\Helper\NotificationError;
 use App\Service\DrivingSchool\Entity\DrivingSchool;
 use App\Service\DrivingSchool\Storage\DrivingSchoolStorageInterface;

@@ -102,4 +102,44 @@ class DrivingSchoolStorage implements DrivingSchoolStorageInterface
 
         return $drivingSchooExists;
     }
+
+    public function searchDrivingSchool($idDrivingSchool)
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+
+        $qb->select('dse.id, dse.name, dse.cnpj, dse.address, dse.phone')
+            ->from(DrivingSchoolEntity::class, 'dse')
+            ->where(
+                $qb->expr()->eq('dse.id', ':idDrivingSchool')
+            )
+            ->setParameter('idDrivingSchool', $idDrivingSchool);
+
+        $q = $qb->getQuery();
+
+        try {
+            $drivingSchoolInfo = $q->getSingleResult();
+        } catch (\Exception $e) {
+            $drivingSchoolInfo = false;
+        }
+
+        return $drivingSchoolInfo;
+    }
+
+    public function searchAllDrivingSchool()
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+
+        $qb->select('dse.id, dse.name, dse.cnpj, dse.address, dse.phone')
+            ->from(DrivingSchoolEntity::class, 'dse');
+
+        $q = $qb->getQuery();
+
+        try {
+            $drivingSchoolInfo = $q->getResult();
+        } catch (\Exception $e) {
+            $drivingSchoolInfo = false;
+        }
+
+        return $drivingSchoolInfo;
+    }
 }

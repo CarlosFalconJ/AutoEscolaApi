@@ -2,15 +2,18 @@
 
 namespace App\Controller;
 
-use App\Dto\RequestCreateDrivingSchool;
-use App\Dto\RequestDeleteDrivingSchool;
-use App\Dto\RequestUpdateDrivingSchool;
+use App\Dto\DrivingSchool\RequestCreateDrivingSchool;
+use App\Dto\DrivingSchool\RequestDeleteDrivingSchool;
+use App\Dto\DrivingSchool\RequestSearchingDrivingSchool;
+use App\Dto\DrivingSchool\RequestUpdateDrivingSchool;
 use App\Helper\NotificationError;
 use App\Helper\RequestParamsParser;
 use App\Helper\ResponseCodeGenericsHelper;
 use App\Helper\ResponseHttpHelper;
 use App\Service\DrivingSchool\DrivingSchoolCreater;
 use App\Service\DrivingSchool\DrivingSchoolDeletor;
+use App\Service\DrivingSchool\DrivingSchoolSearching;
+use App\Service\DrivingSchool\DrivingSchoolSearchingAll;
 use App\Service\DrivingSchool\DrivingSchoolUpdater;
 use App\Service\DrivingSchool\Storage\DrivingSchoolStorage;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DrivingSchoolController extends AbstractController
 {
     #[Route('/api/register/drivingschool', name: 'api_register_drivingschool', methods: 'post')]
-    public function registerStudent(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    public function registerDrivingSchool(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $response = new JsonResponse();
 
@@ -47,7 +50,7 @@ class DrivingSchoolController extends AbstractController
     }
 
     #[Route('/api/updater/drivingschool/{id}', name: 'api_updater_drivingschool', methods: 'put')]
-    public function updaterStudent(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    public function updaterDrivingSchool(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $response = new JsonResponse();
 
@@ -72,7 +75,7 @@ class DrivingSchoolController extends AbstractController
     }
 
     #[Route('/api/deletor/drivingschool/{id}', name: 'api_deletor_drivingschool', methods: 'delete')]
-    public function deletorStudent(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    public function deletorDrivingSchool(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $response = new JsonResponse();
 
@@ -89,6 +92,52 @@ class DrivingSchoolController extends AbstractController
             $drivingSchoolDeletor->delete($requestDeleteDrivingSchool);
 
             ResponseHttpHelper::setResponse($response, $notificationError, [], ResponseCodeGenericsHelper::NO_CONTENT);
+        } catch (\Exception $exception) {
+            $response = ResponseHttpHelper::getResponseError($exception);
+        }
+
+        return $response;
+    }
+
+    #[Route('/api/searching/all/drivingschool/{id}', name: 'api_searching_all_drivingschool', methods: 'get')]
+    public function searchingAllDrivingSchool(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $response = new JsonResponse();
+
+        try {
+            $notificationError = new NotificationError();
+
+            $drivingSchoolStorage = new DrivingSchoolStorage($entityManager);
+
+            $drivingSchoolSearchingAll = new DrivingSchoolSearchingAll($drivingSchoolStorage);
+            $drivingSchoolInfo = $drivingSchoolSearchingAll->searchAll();
+
+            ResponseHttpHelper::setResponse($response, $notificationError, $drivingSchoolInfo, ResponseCodeGenericsHelper::OK);
+        } catch (\Exception $exception) {
+            $response = ResponseHttpHelper::getResponseError($exception);
+        }
+
+        return $response;
+    }
+
+    #[Route('/api/searching/drivingschool/{id}', name: 'api_searching_drivingschool', methods: 'get')]
+    public function searchingDrivingSchool(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $response = new JsonResponse();
+
+        try {
+            $data = RequestParamsParser::requestToArray($request, ['id']);
+
+            $notificationError = new NotificationError();
+
+            $requestSearchingDrivingSchool = RequestSearchingDrivingSchool::create($data);
+
+            $drivingSchoolStorage = new DrivingSchoolStorage($entityManager);
+
+            $drivingSchoolSearching = new DrivingSchoolSearching($drivingSchoolStorage);
+            $drivingSchoolInfo = $drivingSchoolSearching->search($requestSearchingDrivingSchool);
+
+            ResponseHttpHelper::setResponse($response, $notificationError, $drivingSchoolInfo, ResponseCodeGenericsHelper::OK);
         } catch (\Exception $exception) {
             $response = ResponseHttpHelper::getResponseError($exception);
         }
