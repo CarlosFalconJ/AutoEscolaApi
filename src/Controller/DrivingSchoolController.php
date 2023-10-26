@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Dto\RequestCreateDrivingSchool;
+use App\Dto\RequestDeleteDrivingSchool;
 use App\Dto\RequestUpdateDrivingSchool;
 use App\Helper\NotificationError;
 use App\Helper\RequestParamsParser;
 use App\Helper\ResponseCodeGenericsHelper;
 use App\Helper\ResponseHttpHelper;
 use App\Service\DrivingSchool\DrivingSchoolCreater;
+use App\Service\DrivingSchool\DrivingSchoolDeletor;
 use App\Service\DrivingSchool\DrivingSchoolUpdater;
 use App\Service\DrivingSchool\Storage\DrivingSchoolStorage;
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,7 +39,7 @@ class DrivingSchoolController extends AbstractController
             $drivingSchoolCreater->create($requestCreateDrivingSchool);
 
             ResponseHttpHelper::setResponse($response, $notificationError, [], ResponseCodeGenericsHelper::CREATED);
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             $response = ResponseHttpHelper::getResponseError($exception);
         }
 
@@ -58,11 +60,36 @@ class DrivingSchoolController extends AbstractController
 
             $drivingSchoolStorage = new DrivingSchoolStorage($entityManager);
 
-            $drivingSchoolCreater = new DrivingSchoolUpdater($notificationError, $drivingSchoolStorage);
-            $drivingSchoolCreater->update($requestUpdateDrivingSchool);
+            $drivingSchoolUpdater = new DrivingSchoolUpdater($notificationError, $drivingSchoolStorage);
+            $drivingSchoolUpdater->update($requestUpdateDrivingSchool);
 
             ResponseHttpHelper::setResponse($response, $notificationError, [], ResponseCodeGenericsHelper::OK);
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
+            $response = ResponseHttpHelper::getResponseError($exception);
+        }
+
+        return $response;
+    }
+
+    #[Route('/api/deletor/drivingschool/{id}', name: 'api_deletor_drivingschool', methods: 'delete')]
+    public function deletorStudent(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $response = new JsonResponse();
+
+        try {
+            $data = RequestParamsParser::requestToArray($request, ['id']);
+
+            $notificationError = new NotificationError();
+
+            $requestDeleteDrivingSchool = RequestDeleteDrivingSchool::create($data);
+
+            $drivingSchoolStorage = new DrivingSchoolStorage($entityManager);
+
+            $drivingSchoolCreater = new DrivingSchoolDeletor($notificationError, $drivingSchoolStorage);
+            $drivingSchoolCreater->delete($requestDeleteDrivingSchool);
+
+            ResponseHttpHelper::setResponse($response, $notificationError, [], ResponseCodeGenericsHelper::NO_CONTENT);
+        } catch (\Exception $exception) {
             $response = ResponseHttpHelper::getResponseError($exception);
         }
 

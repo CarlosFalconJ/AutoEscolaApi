@@ -41,6 +41,15 @@ class DrivingSchoolStorage implements DrivingSchoolStorageInterface
         $this->entityManager->flush();
     }
 
+    public function deleteDrivingSchool(DrivingSchool $drivingSchool)
+    {
+        $drivingSchoolEntityRepository = $this->entityManager->getRepository(DrivingSchoolEntity::class);
+        $drivingSchoolEntity = $drivingSchoolEntityRepository->find($drivingSchool->getId());
+
+        $this->entityManager->remove($drivingSchoolEntity);
+        $this->entityManager->flush();
+    }
+
     public function getDrivingSchoolWithCnpj(int|null $idDrivingSchool, string $cnpj)
     {
         $qb = $this->entityManager->createQueryBuilder();

@@ -11,4 +11,6 @@ interface DrivingSchoolStorageInterface
     public function getDrivingSchoolWithCnpj(int|null $idDrivingSchool, string $cnpj);
 
     public function updateDrivingSchool(DrivingSchool $drivingSchool);
+
+    public function deleteDrivingSchool(DrivingSchool $drivingSchool);
 }
