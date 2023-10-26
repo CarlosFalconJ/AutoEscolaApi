@@ -27,6 +27,20 @@ class DrivingSchoolStorage implements DrivingSchoolStorageInterface
         $this->entityManager->flush();
     }
 
+    public function updateDrivingSchool(DrivingSchool $drivingSchool)
+    {
+        $drivingSchoolEntityRepository = $this->entityManager->getRepository(DrivingSchoolEntity::class);
+        $drivingSchoolEntity = $drivingSchoolEntityRepository->find($drivingSchool->getId());
+
+        $drivingSchoolEntity->setName($drivingSchool->getName())
+            ->setPhone($drivingSchool->getPhone())
+            ->setCnpj($drivingSchool->getCnpj())
+            ->setAddress($drivingSchool->getAddress());
+
+        $this->entityManager->persist($drivingSchoolEntity);
+        $this->entityManager->flush();
+    }
+
     public function getDrivingSchoolWithCnpj(int|null $idDrivingSchool, string $cnpj)
     {
         $qb = $this->entityManager->createQueryBuilder();
@@ -38,15 +52,17 @@ class DrivingSchoolStorage implements DrivingSchoolStorageInterface
             )
             ->setParameter('cnpj', $cnpj);
 
-        if (is_numeric($idDrivingSchool) && $idDrivingSchool > 0 && !is_null($idDrivingSchool)) {
-            $qb->andWhere($qb->expr()->neq("dse.id'", ":id"))
-                ->setParameter('id', (int)$idDrivingSchool);
+        if ($idDrivingSchool > 0) {
+            $qb->andWhere($qb->expr()->neq("dse.id", ":idDrivingSchool"))
+                ->setParameter("idDrivingSchool", (int)$idDrivingSchool);
         }
 
         $q = $qb->getQuery();
 
         try {
-            $cnpjAlreadyRegistered = !is_null($q->getSingleScalarResult()) ? true : false;
+            $result = $q->getOneOrNullResult();
+
+            $cnpjAlreadyRegistered = !is_null($result) && isset($result['id']) ? true : false;
         } catch (\Exception $e) {
             $cnpjAlreadyRegistered = false;
         }

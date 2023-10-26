@@ -27,7 +27,7 @@ class DrivingSchoolValidation extends NotificationErrorRespectValidationAdpter
     protected function getErrorsMessages($data)
     {
         return [
-            'name' => 'Nome invalido',
+            'name' => ['Nome invalido', []],
             'cnpj' => ['Cnpj inválido', []],
             'address' => ['Endereço inválido', []],
             'phone' => ['Telefone inválido', []],
@@ -37,9 +37,9 @@ class DrivingSchoolValidation extends NotificationErrorRespectValidationAdpter
     protected function getValidation($data)
     {
         return v::arrayType()
-            ->key('name', v::stringType()->setName("name"))
-            ->key('cnpj', v::cnpj()->setName('cnpj'))
-            ->key('address', v::stringType()->setName("address"))
-            ->key('phone', v::phone()->setName("phone"));
+            ->key('name', v::stringType()->notEmpty()->setName("name"))
+            ->key('cnpj', v::cnpj()->notEmpty()->setName('cnpj'))
+            ->key('address', v::stringType()->notEmpty()->setName("address"))
+            ->key('phone', v::phone()->notEmpty()->setName("phone"));
     }
 }
