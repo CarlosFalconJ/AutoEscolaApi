@@ -4,11 +4,10 @@ namespace App\Service\DrivingSchool\Validation\Validations;
 
 use App\Helper\NotificationError;
 use App\Helper\ResponseCodeGenericsHelper;
-use App\Helper\StatusCodeHelper;
 use App\Service\DrivingSchool\Entity\DrivingSchool;
 use App\Service\DrivingSchool\Storage\DrivingSchoolStorageInterface;
 
-class DrivingSchoolCnpjAlreadyRegisteredValidation
+class DrivingSchooExists
 {
     private DrivingSchoolStorageInterface $drivingSchoolStorage;
     private NotificationError $notificationError;
@@ -21,11 +20,11 @@ class DrivingSchoolCnpjAlreadyRegisteredValidation
 
     public function check(DrivingSchool $drivingSchool)
     {
-        $cnpjAlreadyRegistered = $this->drivingSchoolStorage->getDrivingSchoolWithCnpj($drivingSchool->getId(), $drivingSchool->getCnpj());
+        $drivingSchooExists = $this->drivingSchoolStorage->getDrivingSchooExists($drivingSchool->getId());
 
-        if ($cnpjAlreadyRegistered) {
+        if (!$drivingSchooExists) {
             $this->notificationError->setCodigoErro(ResponseCodeGenericsHelper::CONFLICT);
-            $this->notificationError->addErro('cnpj', 'Já existe uma Autoescola registrada com esse cnpj');
+            $this->notificationError->addErro('driving_school', 'Essa Autoescola não existe');
         }
     }
 }

@@ -13,4 +13,6 @@ interface DrivingSchoolStorageInterface
     public function updateDrivingSchool(DrivingSchool $drivingSchool);
 
     public function deleteDrivingSchool(DrivingSchool $drivingSchool);
+
+    public function getDrivingSchooExists(int $idDrivingSchool);
 }

@@ -6,19 +6,19 @@ use App\Dto\RequestUpdateDrivingSchool;
 use App\Helper\NotificationError;
 use App\Service\DrivingSchool\Entity\DrivingSchool;
 use App\Service\DrivingSchool\Storage\DrivingSchoolStorageInterface;
-use App\Service\DrivingSchool\Validation\DrivingSchoolCreaterValidation;
+use App\Service\DrivingSchool\Validation\DrivingSchooUpdaterValidation;
 
 class DrivingSchoolUpdater
 {
     private DrivingSchoolStorageInterface $drivingSchoolStorage;
     private NotificationError $notificationError;
-    private DrivingSchoolCreaterValidation $validation;
+    private DrivingSchooUpdaterValidation $validation;
 
     public function __construct(NotificationError $notificationError, DrivingSchoolStorageInterface $drivingSchoolStorage)
     {
         $this->notificationError = $notificationError;
         $this->drivingSchoolStorage = $drivingSchoolStorage;
-        $this->validation = new DrivingSchoolCreaterValidation($notificationError, $drivingSchoolStorage);
+        $this->validation = new DrivingSchooUpdaterValidation($notificationError, $drivingSchoolStorage);
     }
 
     public function update(RequestUpdateDrivingSchool $requestUpdateDrivingSchool)

@@ -85,8 +85,8 @@ class DrivingSchoolController extends AbstractController
 
             $drivingSchoolStorage = new DrivingSchoolStorage($entityManager);
 
-            $drivingSchoolCreater = new DrivingSchoolDeletor($notificationError, $drivingSchoolStorage);
-            $drivingSchoolCreater->delete($requestDeleteDrivingSchool);
+            $drivingSchoolDeletor = new DrivingSchoolDeletor($notificationError, $drivingSchoolStorage);
+            $drivingSchoolDeletor->delete($requestDeleteDrivingSchool);
 
             ResponseHttpHelper::setResponse($response, $notificationError, [], ResponseCodeGenericsHelper::NO_CONTENT);
         } catch (\Exception $exception) {
