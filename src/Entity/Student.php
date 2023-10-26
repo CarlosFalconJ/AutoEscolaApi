@@ -24,7 +24,7 @@ class Student
     #[ORM\Column(length: 255)]
     private ?string $phone = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $birth_date = null;
 
     #[ORM\Column(length: 255)]

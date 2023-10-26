@@ -99,7 +99,7 @@ class DrivingSchoolController extends AbstractController
         return $response;
     }
 
-    #[Route('/api/searching/all/drivingschool/{id}', name: 'api_searching_all_drivingschool', methods: 'get')]
+    #[Route('/api/searching/all/drivingschool', name: 'api_searching_all_drivingschool', methods: 'get')]
     public function searchingAllDrivingSchool(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $response = new JsonResponse();
