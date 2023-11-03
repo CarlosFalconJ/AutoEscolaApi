@@ -30,7 +30,7 @@ class Instructor
     #[ORM\Column(length: 255)]
     private ?string $cpf = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $birth_date = null;
 
     #[ORM\Column(length: 255)]
@@ -94,9 +94,11 @@ class Instructor
         return $this->cpf;
     }
 
-    public function setCpf(?string $cpf): void
+    public function setCpf(?string $cpf): static
     {
         $this->cpf = $cpf;
+
+        return $this;
     }
 
     public function getBirthDate(): ?\DateTimeInterface
@@ -104,9 +106,11 @@ class Instructor
         return $this->birth_date;
     }
 
-    public function setBirthDate(?\DateTimeInterface $birth_date): void
+    public function setBirthDate(?\DateTimeInterface $birth_date): static
     {
         $this->birth_date = $birth_date;
+
+        return $this;
     }
 
     public function getCategory(): ?string
@@ -114,8 +118,10 @@ class Instructor
         return $this->category;
     }
 
-    public function setCategory(?string $category): void
+    public function setCategory(?string $category): static
     {
         $this->category = $category;
+
+        return $this;
     }
 }
