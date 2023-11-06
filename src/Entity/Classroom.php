@@ -17,6 +17,10 @@ class Classroom
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
+    #[ORM\ManyToOne(targetEntity: DrivingSchool::class)]
+    #[ORM\JoinColumn(name: 'drivingSchool_id', referencedColumnName: 'id')]
+    private DrivingSchool|null $drivingSchool = null;
+
     #[ORM\ManyToOne(targetEntity: Student::class)]
     #[ORM\JoinColumn(name: 'student_id', referencedColumnName: 'id')]
     private Student|null $student = null;
@@ -33,6 +37,18 @@ class Classroom
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getDrivingSchool(): ?DrivingSchool
+    {
+        return $this->drivingSchool;
+    }
+
+    public function setDrivingSchool(?DrivingSchool $drivingSchool): static
+    {
+        $this->drivingSchool = $drivingSchool;
+
+        return $this;
     }
 
     public function getDate(): ?\DateTimeInterface

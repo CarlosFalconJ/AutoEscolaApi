@@ -21,7 +21,6 @@ class StudentSearching
             $student['birth_date'] = $student['birth_date']->format('Y-m-d');
         }
 
-
         return $student;
     }
 
